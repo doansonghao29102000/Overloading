@@ -1,11 +1,5 @@
 #include<iostream.h>
 using namespace std;
-void swap(int &xp , int &yp)
-{
-    int temp = xp;
-    xp = yp;
-    yp = temp;
-}
 class  giao_vien
 {
 	private:
@@ -18,8 +12,12 @@ class  giao_vien
           friend istream& operator >>(istream &in, giao_vien &a);
           friend ostream& operator <<(ostream &out, giao_vien a);
           long lcb();
-          bool operator ==(giao_vien a);
-          friend bool operator >(giao_vien a, giao_vien b);
+          bool operator <(long x);
+          bool operator ==(string s);
+          string getName(){
+          	   return ht;
+          }
+        
 };
 istream& operator >>(istream &in, giao_vien &a){
 	cout<<"Nhap ho ten:";
@@ -43,30 +41,48 @@ ostream& operator <<(ostream &out, giao_vien a){
 long giao_vien::lcb(){
 	return this->bl*610;
 }
-bool giao_vien::operator==(giao_vien a){
-	return this->bc==a.bc;
+bool giao_vien::operator<(long x)
+{
+	return this->bl*610 < x;
 }
-bool operator >(giao_vien a, giao_vien b){
-	return a.bc > b.bc;
+bool giao_vien::operator ==(string s)
+{
+	return this->ht == s;
 }
 int main(){
 	int n;
 	cout<<"Nhap vao so luong giao vien:";
 	cin>>n;
 	cin.ignore();
-	giao_vien x[n];
+	giao_vien x[100];
 	for(int i=0;i<n;i++){
 		cout<<"\nnhap thong tin cho giao vien thu "<<i+1<<endl;
 		cin>>x[i];
 	}
-	for(int i=0;i<n-1;i++){
-		for(int j=i;j<n;j++){
-			if(x[i]>x[j]) swap(x[i],x[j]);
+	cout<<"\n---danh sach giao vien co luong nho hon 2000 ---"<<endl;
+	for(int i=0;i<n;i++){
+		if(x[i] < 2000){
+			cout<<x[i];
 		}
 	}
-	cout<<"\n---danh sach sinh vien duoc sap xep theo bang cap---"<<endl;
+	giao_vien gv;
+	cout<<"\nnhap thong tin cho 1 giao vien tu ban phim "<<endl;
+	cin >> gv;
+	int cnt = 0;
 	for(int i=0;i<n;i++){
-		cout<<x[i]<<endl;
+		if(x[i] == gv.getName()){
+			cnt++;
+			cout<<"\nluong cua giao vien do la:"<<x[i].lcb()<<endl;
+			break;
+		}
+	}
+	if(cnt == 0){
+		n++;
+		x[n-1] = gv;
+		
+	}
+	for(int i=0;i<n;i++){
+			cout<<x[i];
 	}
 	return 0;
 }
